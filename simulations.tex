@@ -1,0 +1,129 @@
+\section{Simulations and Analysis}
+
+\subsection{MHD Equations}
+These simulations are done using the open source code Enzo (\citet{Bryan14}) to
+solve the Eulerian equations of ideal magnetohydrodynamics (MHD) using the
+method of adaptive mesh refinement (AMR) to achieve the dynamic resolution scales
+needed for this type of problem. These MHD equations (as can be found in the
+Enzo documentation cited above) with no gravity are shown below in cgs
+units with magnetic permeability set to 1.   
+
+\begin{equation} \label{eq:MHD1}
+    \frac{\partial \rho}{\partial t}
++ \nabla \cdot
+(\rho \mathbf{v})
+= 0
+\end{equation}
+\begin{equation} \label{eq:MHD2}
+    \frac{\partial \rho \mathbf{v} }{\partial t}
++ \nabla \cdot
+\left(
+        \rho \mathbf{v} \mathbf{v}
+        + \mathbf{I} P
+        - \frac { \mathbf{B} \mathbf{B} }{ 8 \pi }
+\right)
+=
+0
+\end{equation}
+\begin{equation} \label{eq:MHD3}
+\frac{\partial E}{\partial t}
++ \nabla \cdot
+\left[
+        (E + P) \mathbf{v}
+        -
+        \frac
+        { \mathbf{B} ( \mathbf{B} \cdot \mathbf{v} ) }
+        { 4 \pi }
+\right]
+= 0
+\end{equation}
+\begin{equation} \label{eq:MHD4}
+\frac {\partial \mathbf{B} }{\partial t}
+- \nabla \times ( \mathbf{v} \times \mathbf{B})
+=0
+\end{equation}
+
+
+where $\mathbf{v}\mathbf{v}$ and $\mathbf{B}\mathbf{B}$ are
+the velocity and the magnetic field outer products, $\phi$ is
+the density,$\Lambda$ and $\Gamma$ represent
+radiative cooling and heating and $\mathbf{F}_{cond}$ is the flux due to thermal
+heat conduction.
+The total energy density  is
+equal to the total of the kinetic,
+the thermal and the magnetic energy,
+
+\begin{equation} \label{eq:E-total}
+E = e + \frac{ \rho v^2 }{ 2 } + \frac{B^2}{8\pi}
+\end{equation}
+
+and
+
+\begin{equation} \label{eq:P-total}
+P = p + \frac{B^2}{8\pi}
+\end{equation}
+
+is the total thermal plus the magnetic pressure.
+
+The system is closed by an equation of state.
+
+\begin{equation} \label{eq:EOS}
+e = \frac{p}{\gamma - 1}
+\end{equation}
+
+where the equation of state is shown for an ideal gas with a ratio of specific
+heats $\gamma$.
+\subsection{Adaptive Mesh Refinement}
+The difficult problem mentioned before of large dynamic spatial and temporal
+scales inherent to this study is handled through the implementation of adaptive
+mesh refinement (AMR). This method actively increases and decreases the 
+local mesh resolution and time step based on desired local parameters such as
+Jean's length, metalicity or density. This enables us to conserve computational
+power on regions that are largely static and direct it toward the dynamic, dense
+regions that are evolving rapidly on the galactic time scales. This method often
+enables us to achieve effective resolutions several orders of magnitude larger
+than would be possible using a fixed grid with a similar computational time
+while losing very little accuracy in the coarse regions. 
+
+When running our simulation we select several criteria (such as those outlined
+above) that will 'flag' a region as requiring increased grid resolution or
+shorter time steps in order to achieve the desired accuracy. This region is then
+subdivided into several smaller regions that the equations can be solved on. If
+the smaller regions no longer satisfy the 'flagged' criterion they are solved
+and the entire simulation moves forward. If any zone within this new region is
+still being flagged then it too is subdivided and rechecked until either an
+appropriate resolution is achieved or it reaches the maximum resolution defined
+manually in the code at which point it is solved as is. 
+
+\subsection{Simulation Parameters}
+
+These simulations use a root grid of $512^{3}$ with two levels of refinement to
+yield an effective resolution of $2048^{3}$. The sonic Mach number $M_{s}$ and
+Alfven Mach number $M_{a}$ are chosen here to be $$M_{s} = 0.5, 1, 2, 3$$ and
+$$M_{a} = 0.5, 1, 2$$ across the suite of 12 simulations designed to probe the
+polarized dust parameter space.
+
+Here I need to list all the important parameter values such as $\rho_0$ the
+ratio of solenoidal to compressible turbulence, gamma, blah blah.
+
+The box is driven by ??purely solenoidal turbulence?? throughout the simulation and
+allowed to run for 10 crossing times $t_{cross}$. The data presented in this
+paper is taken from times between 5 to 10 $t_{cross}$ to ensure that a
+statistically relaxed state has been reached before analysis is begun.
+
+\subsection{Synthetic Observations}
+
+When we speak of synthetic measurements we are referring to the ability to
+use simulations (or numerical methods in general) to reproduce measurements or
+data in the same way that it is collected and analyzed by physical observers.
+For instance this may refer to generating 2-D projected column density maps
+based on a luminosity distance relationship as opposed to looking at the 3-D
+density field value at a given point. It should come as no surprise that the
+majority of synthetic measurements will involve the observation of sources in
+emission. There are however some cases of interest to us such as extinction
+mapping in the ISM where absorption maps will also play an important role.
+
+In this work we analyze synthetic polarization dust maps in order to gain a
+better insight into the relationship between the underlying physical
+information, and it presents itself to observers. This is important since
+ultimately we are comparing our results with values seen on the real sky.
